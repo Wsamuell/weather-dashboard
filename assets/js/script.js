@@ -1,38 +1,44 @@
 const cityStorage = [];
-const days = [];
-// const citySearchText = $('#city-search-bar');
-// const citySearchBtn = $('#city-search');
-// const clearHistory = $('#clear-history');
-// const cityName = $('#city-name')
-// const cityTemp = $('#city-temperature')
-// const cityWind = $('#city-wind')
-// const cityHumid = $('#city-humidity')
-// const cityUv = $('#city-uv-index')
-
+const time = moment().format('LLL');
+console.log(time);
 apiKey = '8e3b5c73ef1c4faa52421e586368e6e7'
-// secondApiKey = '37fe49a773225ac5cc711f4133df4df7'
 
 function fetchWeather(city) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
 
     fetch(apiUrl)
         .then(function (res) {
-            // console.log(res)
             return res.json()
         })
 
         .then(function (data) {
             // console.log(data)
-            let mainInfo = data.main;
-            let cityName = data.name;
-            let wind = data.wind.speed;
+            var iconLocation = data.weather[0].icon;
+            var iconURL = `<img src="https://openweathermap.org/img/w/${iconLocation}.png" alt="Current Weather image" />`;
+
+            var weatherToday = {
+                temp: data.main.temp,
+                cityName: data.name,
+                icon: iconURL,
+                wind: data.wind.speed,
+                humidity: data.main.humidity
+            }
             let lat = data.coord.lat;
             let lon = data.coord.lon;
             uvIndex(lat, lon);
-            document.getElementById('city-name').innerText = cityName;
-            document.getElementById('city-temperature').innerText = mainInfo.temp;
-            document.getElementById('city-wind').innerText = wind;
-            document.getElementById('city-humidity').innerText = mainInfo.humidity;
+
+
+            
+            var weatherTodayBox = (`
+            <div id='forecast-main'>
+            <h2 id="city-name"> ${weatherToday.cityName}</h2>
+            <p> ${weatherToday.temp} °F</p>
+            <h1> ${weatherToday.icon}</h1>
+            <p> Wind: ${weatherToday.wind} MPH</p>
+            <p> Humidity: ${weatherToday.humidity} \%</p>
+            </div>
+            `)
+            $('#city-info').append(weatherTodayBox);
 
         });
 
@@ -47,8 +53,11 @@ function uvIndex(futureLat, futureLon) {
         .then(function (data) {
             console.log(data)
             let uv = data.current.uvi
-            document.getElementById('city-uv-index').innerText = uv;
-            for (let i = 0; i < 6; i++) {
+            var addUv = (`
+            <p id='uv-index'> UV Index: ${uv}</p>
+            `)
+            $('#city-info').append(addUv);
+            for (let i = 0; i < 5; i++) {
                 var eachDay = {
                     date: data.daily[i].dt,
                     icon: data.daily[i].weather[0].icon,
@@ -57,22 +66,22 @@ function uvIndex(futureLat, futureLon) {
                     humidity: data.daily[i].humidity
                 };
                 var iconURL = `<img src="https://openweathermap.org/img/w/${eachDay.icon}.png" alt="${data.daily[i].weather[0].main}" />`;
+                // <h5>${date}</h5>
 
                 var eachDayCard = $(`
-                <div class="pl-3">
+            <div class="pl-3" id="forecast-child">
                 <div class="card pl-3 pt-3 mb-3 bg-primary text-light" style="width: 12rem;>
                     <div class="card-body">
-                        <h5>${date}</h5>
                         <p>${iconURL}</p>
                         <p>Temp: ${eachDay.temp} °F</p>
-                        <p>Wind: ${eachDay.wind} mph</p>
+                        <p>Wind: ${eachDay.wind} MPH</p>
                         <p>Humidity: ${eachDay.humidity}\%</p>
                     </div>
                 </div>
             <div>
                 `);
 
-            $('#future-forecast').append(eachDayCard);
+                $('#future-forecast').append(eachDayCard);
 
             }
 
@@ -80,33 +89,39 @@ function uvIndex(futureLat, futureLon) {
 
 };
 
-// function fiveDay(futureLat, futureLon ) {
-//     let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${futureLat}&lon=${futureLon}&units=imperial&exclude=current,minutely,hourly,alerts&appid=${apiKey}`;
-
-//     fetch(apiUrl)
-//     .then(function (res) {
-//         return res.json()
-//     })
-//     .then(function (data) {
-//         console.log(data)
-
-//     });
-
-// };
-
 
 
 function getCityText(event) {
     event.preventDefault();
+    $('div').remove('#forecast-child');
+    $('div').remove('#forecast-main');
+    $('p').remove('#uv-index');
+
 
     let city = document.getElementById('city-search-bar').value.trim()
     fetchWeather(city);
+    cityStorage.push(city);
+    var priorSearch = (`
+        <li>${city}</li>
+    `)
+    $('#search-history').append(priorSearch);
+
+
+    localStorage.setItem('Previous-cities', JSON.stringify(cityStorage));
 };
 
-
-
+function clearHistory() {
+    localStorage.clear();
+    console.log('Local Storage Cleared!!!')
+    location.reload();
+};
 
 
 // jquery click handlers
 
-$('#city-search').on('click', getCityText)
+$('#city-search').on('click', getCityText);
+$('#clear-history').on('click', clearHistory);
+
+// date needs to work for current weather and also we need to add style
+// style to button
+// 

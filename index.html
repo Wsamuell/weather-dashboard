@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<div></div>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,10 +19,15 @@
     </nav>
 
     <section class="container col-4">
+        <article class="" id="search-history">
+            <ul class="" id="search-history">
+                
+            </ul>
+        </article>
         <article class="col">
             <p>Search for a City</p>
             <input class="form-control mr-sm-2" id="city-search-bar" placeholder="Enter City here">
-            <button class="btn btn-outline-primary my-2 my-sm-0" id="city-search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" id="city-search">Search
                 <i class="fas fa-search-location"></i>
             </button>
             <button id="clear-history" class="btn btn-secondary">Clear History</button>
@@ -30,27 +35,21 @@
     </section>
 
     <!-- local storage prior search goes here -->
+<p></p>
+    <section class="container" id="city-info">
 
-    <section class="row" id="city-info">
-        
-        <div class="col-12" id="city-name"></div>
-        <div class="col-12" id="city-temperature"></div>
-        <div class="col-12" id="city-wind"></div>
-        <div class="col-12" id="city-humidity"></div>
-        <div class="col-12" id="city-uv-index"></div>
+
     </section>
 
-    <section class="row col-8" id="future-forecast">
-        <p>5-Day Forecast:</p>
+    <h3>5-Day Forecast:</h3>
+    <section class="row" id="future-forecast">
+        <br>
 
     </section>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
