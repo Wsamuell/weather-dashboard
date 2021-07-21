@@ -1,10 +1,5 @@
 const cityStorage = [];
-apiKey = '8e3b5c73ef1c4faa52421e586368e6e7'
-
-
-var DateTime = luxon.DateTime;
-    //    var localTime=DateTime.local();
-    //    console.log(localTime.toString());
+const apiKey = '8e3b5c73ef1c4faa52421e586368e6e7'
 
 function fetchWeather(city) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
@@ -31,7 +26,7 @@ function fetchWeather(city) {
             uvIndex(lat, lon);
 
 
-            
+
             var weatherTodayBox = (`
             <div id='forecast-main'>
             <h2 id="city-name"> ${weatherToday.cityName}</h2>
@@ -54,12 +49,24 @@ function uvIndex(futureLat, futureLon) {
             return res.json()
         })
         .then(function (data) {
-            console.log(data)
+            // console.log(data)
             let uv = data.current.uvi;
-            let timezone = data.timezone
-            // let currentTime = moment().tz(`${timezone}`).format('MMMM Do YYYY, h:mm:ss a');
+            let timezone = data.timezone;
 
-            // console.log(currentTime);
+            var DateTime = luxon.DateTime;
+            var myZone = `${timezone}`;
+            var local = DateTime.local();
+            var rezoned = local.setZone(myZone);
+            let ISOTime = rezoned.toString();
+            console.log(ISOTime)
+            var currentTime = DateTime.fromISO(`${ISOTime}`).toFormat('ffff');
+
+            console.log(currentTime)
+
+            $('#current-time').append(currentTime);
+
+
+
 
             var addUv = (`
             <p id='uv-index'> UV Index: ${uv}</p>
@@ -105,6 +112,8 @@ function getCityText(event) {
     $('div').remove('#forecast-child');
     $('div').remove('#forecast-main');
     $('p').remove('#uv-index');
+    $('#div').remove('current-time');
+
 
 
     let city = document.getElementById('city-search-bar').value.trim()
