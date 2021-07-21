@@ -1,7 +1,10 @@
 const cityStorage = [];
-const time = moment().format('LLL');
-console.log(time);
 apiKey = '8e3b5c73ef1c4faa52421e586368e6e7'
+
+
+var DateTime = luxon.DateTime;
+    //    var localTime=DateTime.local();
+    //    console.log(localTime.toString());
 
 function fetchWeather(city) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
@@ -52,7 +55,12 @@ function uvIndex(futureLat, futureLon) {
         })
         .then(function (data) {
             console.log(data)
-            let uv = data.current.uvi
+            let uv = data.current.uvi;
+            let timezone = data.timezone
+            // let currentTime = moment().tz(`${timezone}`).format('MMMM Do YYYY, h:mm:ss a');
+
+            // console.log(currentTime);
+
             var addUv = (`
             <p id='uv-index'> UV Index: ${uv}</p>
             `)
@@ -63,8 +71,9 @@ function uvIndex(futureLat, futureLon) {
                     icon: data.daily[i].weather[0].icon,
                     temp: data.daily[i].temp.day,
                     wind: data.daily[i].wind_speed,
-                    humidity: data.daily[i].humidity
+                    humidity: data.daily[i].humidity,
                 };
+
                 var iconURL = `<img src="https://openweathermap.org/img/w/${eachDay.icon}.png" alt="${data.daily[i].weather[0].main}" />`;
                 // <h5>${date}</h5>
 
