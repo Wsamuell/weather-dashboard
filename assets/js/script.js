@@ -71,12 +71,7 @@ function uvIndex(futureLat, futureLon) {
             for (let i = 0, j = 1; i < 5, j < 6; i++, j++) {
                 var date = new Date();
                 date.setDate(date.getDate() + j);
-                var day = date.getDate()
-                var month = date.getMonth()
-                var year = date.getFullYear()
-
-                console.log(month, day, year)
-                console.log(date[j])
+                let futureDates = date.toDateString()
                 var eachDay = {
                     icon: data.daily[i].weather[0].icon,
                     temp: data.daily[i].temp.day,
@@ -91,7 +86,7 @@ function uvIndex(futureLat, futureLon) {
                 <div class="card pt-3 mb-3 text-light five-day" style="width: 15rem;">
                     <div class="card-body five-day">
                         <p>${iconURL}</p>
-                        <p> ${date[j]}</p>
+                        <p> ${futureDates}</p>
                         <p>Temp: ${eachDay.temp} °F</p>
                         <p>Wind: ${eachDay.wind} MPH</p>
                         <p>Humidity: ${eachDay.humidity}\%</p>
@@ -134,11 +129,13 @@ function getCityText(event) {
 };
 function history() {
     let city = document.getElementById('research').innerHTML.trim()
+    console.log(city)
     fetchWeather(city);
     $('div').remove('#forecast-child');
     $('div').remove('#forecast-main');
     $('p').remove('#uv-index');
     $('#div').remove('current-time');
+    $('button').remove('#city')
 
 }
 
