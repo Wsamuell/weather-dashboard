@@ -1,8 +1,6 @@
 const cityStorage = [];
 const apiKey = '8e3b5c73ef1c4faa52421e586368e6e7'
 
-// const test = new Date().toLocaleDateString()
-// console.log(test)
 function fetchWeather(city) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
 
@@ -12,7 +10,6 @@ function fetchWeather(city) {
         })
 
         .then(function (data) {
-            // console.log(data)
             var iconLocation = data.weather[0].icon;
             var iconURL = `<img src="https://openweathermap.org/img/w/${iconLocation}.png" alt="Current Weather image" />`;
 
@@ -30,7 +27,7 @@ function fetchWeather(city) {
 
 
 
-            console.log(date)
+            // console.log(date)
 
 
 
@@ -71,8 +68,15 @@ function uvIndex(futureLat, futureLon) {
                 $('#uv-index').attr('class', 'badge badge-danger')
             }
 
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0, j = 1; i < 5, j < 6; i++, j++) {
+                var date = new Date();
+                date.setDate(date.getDate() + j);
+                var day = date.getDate()
+                var month = date.getMonth()
+                var year = date.getFullYear()
 
+                console.log(month, day, year)
+                console.log(date[j])
                 var eachDay = {
                     icon: data.daily[i].weather[0].icon,
                     temp: data.daily[i].temp.day,
@@ -87,6 +91,7 @@ function uvIndex(futureLat, futureLon) {
                 <div class="card pt-3 mb-3 text-light five-day" style="width: 15rem;">
                     <div class="card-body five-day">
                         <p>${iconURL}</p>
+                        <p> ${date[j]}</p>
                         <p>Temp: ${eachDay.temp} °F</p>
                         <p>Wind: ${eachDay.wind} MPH</p>
                         <p>Humidity: ${eachDay.humidity}\%</p>
@@ -114,21 +119,32 @@ function getCityText(event) {
 
 
 
+
     let city = document.getElementById('city-search-bar').value.trim()
     fetchWeather(city);
     cityStorage.push(city);
     var priorSearch = (`
-        <li class="alert">${city}</li>
+        <button class="alert" id="research" onClick='history()'>${city}</button>
     `)
     $('#search-history').append(priorSearch);
 
 
+
     localStorage.setItem('Previous-cities', cityStorage);
 };
+function history() {
+    let city = document.getElementById('research').innerHTML.trim()
+    fetchWeather(city);
+    $('div').remove('#forecast-child');
+    $('div').remove('#forecast-main');
+    $('p').remove('#uv-index');
+    $('#div').remove('current-time');
+
+}
 
 function clearHistory() {
     localStorage.clear();
-    console.log('Local Storage Cleared!!!')
+    alert('Local Storage Cleared!!!')
     location.reload();
 };
 
@@ -137,7 +153,5 @@ function clearHistory() {
 
 $('#city-search').on('click', getCityText);
 $('#clear-history').on('click', clearHistory);
+$('#research').on('click', history);
 
-// date needs to work for current weather and also we need to add style
-// style to button
-// 
