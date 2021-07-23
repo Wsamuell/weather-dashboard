@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: inherit;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
+nav{
+    color: aliceblue;
+    font-weight: 500;
+    font-size: 80px;
+    display: flex;
+    justify-content: center;
+    padding-left: 200px;
+    background-color: #353b48;
+    margin-bottom: 50px;
+}
+
+li{
+    list-style: none;
+    background-color: #00a8ff;
+    font-size: 20px;
+}
+.search-box{
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    justify-content: space-between;
+}
+
+
+.five-day {
+    background-color: #00a8ff;
+    color: black;
+    font-size: 20px;
+    
+}
+.five-day-title {
+    padding: 20px;
+    
+}
+.today-icon{
+    font-size: 40px;
+}

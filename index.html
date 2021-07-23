@@ -15,51 +15,55 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="">Weather Dashboard</div>
-    </nav>
+    <nav>Weather Dashboard</nav>
+    <div class="container">
+        <div class="row">
+            <section class="col">
+                <article class="card search-box">
+                    <p class="card-title">Search for a City</p>
+                    <div class="card-body">
 
-    <section class="container col-4">
-        <article class="" id="search-history">
-            <ul class="" id="search-history">
+                        <input class="form-control form-control-lg" id="city-search-bar" placeholder="Enter City Name">
+                        <br>
+                        <button class="btn btn-outline-primary my-2 my-sm-0" id="city-search">Search
+                            <i class="fas fa-search-location"></i>
+                        </button>
+                        <button id="clear-history" class="btn btn-secondary">Clear History & Reset</button>
+                    </div>
+                    <ul class="col-sm-6" id="search-history">
+                        Prior Search
 
-            </ul>
-        </article>
-        <article class="col">
-            <p>Search for a City</p>
-            <input class="form-control mr-sm-2" id="city-search-bar" placeholder="Enter City here">
-            <button class="btn btn-outline-primary my-2 my-sm-0" id="city-search">Search
-                <i class="fas fa-search-location"></i>
-            </button>
-            <button id="clear-history" class="btn btn-secondary">Clear History</button>
-        </article>
-    </section>
+                    </ul>
 
-    <section class="container" id="city-info">
-    <div class="container" id="current-time"></div>
+                </article>
+            </section>
 
-    </section>
 
-    <h3>5-Day Forecast:</h3>
-    <section class="row" id="future-forecast">
-        <br>
+            <section class="col" id="city-info">
 
-    </section>
+            </section>
+        </div>
+
+        <div class="w-100 five-day-title">
+            <h3>5-Day Forecast:</h3>
+            <div>
+
+                <section class="row" id="future-forecast">
+
+            </div>
+            </section>
+        </div>
+
+    </div>
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
         </script>
-    <script src="luxon.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.1/luxon.min.js"
-        integrity="sha512-bI2nHaBnCCpELzO7o0RB58ULEQuWW9HRXP/qyxg/u6WakLJb6wz0nVR9dy0bdKKGo0qOBa3s8v9FGv54Mbp3aA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
 
     <script src="./assets/js/script.js"></script>
-
 
 </body>
 

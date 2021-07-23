@@ -1,6 +1,8 @@
 const cityStorage = [];
 const apiKey = '8e3b5c73ef1c4faa52421e586368e6e7'
 
+// const test = new Date().toLocaleDateString()
+// console.log(test)
 function fetchWeather(city) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
 
@@ -24,14 +26,20 @@ function fetchWeather(city) {
             let lat = data.coord.lat;
             let lon = data.coord.lon;
             uvIndex(lat, lon);
+            var date = new Date().toDateString()
+
+
+
+            console.log(date)
 
 
 
             var weatherTodayBox = (`
             <div id='forecast-main'>
-            <h2 id="city-name"> ${weatherToday.cityName}</h2>
+            <h2 id="city-name font-weight-bold"> ${weatherToday.cityName}</h2>
+            <div class="container" id="current-time">${date}</div>
             <p> ${weatherToday.temp} °F</p>
-            <h1> ${weatherToday.icon}</h1>
+            <h1 class="today-icon"> ${weatherToday.icon}</h1>
             <p> Wind: ${weatherToday.wind} MPH</p>
             <p> Humidity: ${weatherToday.humidity} \%</p>
             </div>
@@ -49,32 +57,23 @@ function uvIndex(futureLat, futureLon) {
             return res.json()
         })
         .then(function (data) {
-            // console.log(data)
             let uv = data.current.uvi;
-            let timezone = data.timezone;
-
-            var DateTime = luxon.DateTime;
-            var myZone = `${timezone}`;
-            var local = DateTime.local();
-            var rezoned = local.setZone(myZone);
-            let ISOTime = rezoned.toString();
-            console.log(ISOTime)
-            var currentTime = DateTime.fromISO(`${ISOTime}`).toFormat('ffff');
-
-            console.log(currentTime)
-
-            $('#current-time').append(currentTime);
-
-
-
-
+            console.log(uv)
             var addUv = (`
             <p id='uv-index'> UV Index: ${uv}</p>
             `)
             $('#city-info').append(addUv);
+            if (uv < 4) {
+                $('#uv-index').attr('class', 'badge badge-success')
+            } else if (uv < 8) {
+                $('#uv-index').attr('class', 'badge badge-warning')
+            } else {
+                $('#uv-index').attr('class', 'badge badge-danger')
+            }
+
             for (let i = 0; i < 5; i++) {
+
                 var eachDay = {
-                    date: data.daily[i].dt,
                     icon: data.daily[i].weather[0].icon,
                     temp: data.daily[i].temp.day,
                     wind: data.daily[i].wind_speed,
@@ -82,19 +81,18 @@ function uvIndex(futureLat, futureLon) {
                 };
 
                 var iconURL = `<img src="https://openweathermap.org/img/w/${eachDay.icon}.png" alt="${data.daily[i].weather[0].main}" />`;
-                // <h5>${date}</h5>
 
                 var eachDayCard = $(`
             <div class="pl-3" id="forecast-child">
-                <div class="card pl-3 pt-3 mb-3 bg-primary text-light" style="width: 12rem;>
-                    <div class="card-body">
+                <div class="card pt-3 mb-3 text-light five-day" style="width: 15rem;">
+                    <div class="card-body five-day">
                         <p>${iconURL}</p>
                         <p>Temp: ${eachDay.temp} °F</p>
                         <p>Wind: ${eachDay.wind} MPH</p>
                         <p>Humidity: ${eachDay.humidity}\%</p>
                     </div>
                 </div>
-            <div>
+            </div>
                 `);
 
                 $('#future-forecast').append(eachDayCard);
@@ -120,12 +118,12 @@ function getCityText(event) {
     fetchWeather(city);
     cityStorage.push(city);
     var priorSearch = (`
-        <li>${city}</li>
+        <li class="alert">${city}</li>
     `)
     $('#search-history').append(priorSearch);
 
 
-    localStorage.setItem('Previous-cities', JSON.stringify(cityStorage));
+    localStorage.setItem('Previous-cities', cityStorage);
 };
 
 function clearHistory() {
