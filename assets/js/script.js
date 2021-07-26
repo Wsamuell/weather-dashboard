@@ -33,9 +33,9 @@ function fetchWeather(city) {
 
             var weatherTodayBox = (`
             <div id='forecast-main'>
-            <h2 id="city-name font-weight-bold"> ${weatherToday.cityName}</h2>
-            <div class="container" id="current-time">${date}</div>
-            <p> ${weatherToday.temp} °F</p>
+            <h1 id="city-name font-weight-bold"> ${weatherToday.cityName}</h1>
+            <h5 class="container" id="current-time">${date}</h5>
+            <h1> ${weatherToday.temp} °F</h1>
             <h1 class="today-icon"> ${weatherToday.icon}</h1>
             <p> Wind: ${weatherToday.wind} MPH</p>
             <p> Humidity: ${weatherToday.humidity} \%</p>
